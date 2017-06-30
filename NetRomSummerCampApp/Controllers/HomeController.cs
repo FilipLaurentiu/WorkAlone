@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -21,8 +22,7 @@ namespace NetRomSummerCampApp.Controllers
             List<Category> categorys = CategoryContext.GetCategory();
 
             List<Announcement> announcements = AnnouncementsContext.GetAnnouncement();
-            FiltredCategory filter = new FiltredCategory();
-            Tuple<List<Category>, List<Announcement>, FiltredCategory> tup = new Tuple<List<Category>, List<Announcement>, FiltredCategory>(categorys, announcements, filter);
+            Tuple<List<Category>, List<Announcement>> tup = new Tuple<List<Category>, List<Announcement>>(categorys, announcements);
 
             return View(tup);
         }
@@ -54,12 +54,13 @@ namespace NetRomSummerCampApp.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 AnnouncementCreateDTO entity = new AnnouncementCreateDTO
                 {
                     CategoryId = vm.CategoryId,
                     Title = vm.Title,
                     Description = vm.Description,
+                    Email = vm.Email,
                     Phonenumber = vm.Phonenumber
                 };
                 string url = "http://localhost:61005/api/announcements/NewAnnouncement";
@@ -67,10 +68,15 @@ namespace NetRomSummerCampApp.Controllers
                 {
                     JavaScriptSerializer serialize = new JavaScriptSerializer();
                     serialize.Serialize(entity);
-                    StringContent content = new StringContent(serialize.ToString());
+                    var json = new JavaScriptSerializer().Serialize(entity);
 
-                    HttpResponseMessage response = await httpClient.PostAsync(url, content);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpClient client = new HttpClient();
                    
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    
+                    return RedirectToAction("Index");
                 }
             }
 

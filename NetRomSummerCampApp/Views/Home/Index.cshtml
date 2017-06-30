@@ -1,5 +1,5 @@
 ﻿@using NetRomSummerCampApp.Models;
-@model Tuple<List<Category>, List<Announcement>, FiltredCategory>
+@model Tuple<List<Category>, List<Announcement>>
 
 @{ 
     Layout = null;
@@ -13,7 +13,14 @@
   
 
     <div class="form-inline">
-        @Html.DropDownListFor(tuple=> tuple.Item3.FilterCategoryId, @Model.Item1.Select(item => new SelectListItem
+        @*@Html.DropDownListFor(tuple=> tuple.Item3.FilterCategoryId, @Model.Item1.Select(item => new SelectListItem
+   {
+       Value = item.Id.ToString(),
+       Text = item.Name.ToString(),
+       Selected = "select" == item.Id.ToString()
+   }), new { @class = "form-control" })*@
+
+        @Html.DropDownList("Category", @Model.Item1.Select(item => new SelectListItem
    {
        Value = item.Id.ToString(),
        Text = item.Name.ToString(),
@@ -22,7 +29,7 @@
 
 
 
-        @Html.ActionLink("Search", "Search", new { @Model.Item3})
+        @*@Html.ActionLink("Search", "Search", new { @Model.Item3})*@
         @Html.ActionLink("New Announcement", "CreateAnnouncement",null, new { @class = "btn btn-success" })
     </div>
 
