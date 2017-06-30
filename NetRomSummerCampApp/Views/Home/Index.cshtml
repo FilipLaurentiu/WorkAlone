@@ -1,0 +1,44 @@
+﻿@using NetRomSummerCampApp.Models;
+@model Tuple<List<Category>, List<Announcement>, FiltredCategory>
+
+@{ 
+    Layout = null;
+}
+
+<div class="container">
+    <div class="page-header">
+        <h1>Announcement List</h1>
+    </div>
+
+  
+
+    <div class="form-inline">
+        @Html.DropDownListFor(tuple=> tuple.Item3.FilterCategoryId, @Model.Item1.Select(item => new SelectListItem
+   {
+       Value = item.Id.ToString(),
+       Text = item.Name.ToString(),
+       Selected = "select" == item.Id.ToString()
+   }), new { @class = "form-control" })
+
+
+
+        @Html.ActionLink("Search", "Search", new { @Model.Item3})
+        @Html.ActionLink("New Announcement", "CreateAnnouncement",null, new { @class = "btn btn-success" })
+    </div>
+
+
+
+    @foreach (var a in @Model.Item2)
+    {
+        <div class="jumbotron">
+            <h2>@a.Title</h2>
+            <h3>@a.CategoryName</h3>
+            <a href="#">Show Details</a>
+        </div>
+
+    }
+
+    
+
+
+</div>

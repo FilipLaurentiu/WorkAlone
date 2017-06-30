@@ -1,0 +1,44 @@
+﻿@model NetRomSummerCampApp.ViewModel.AnnouncementViewModel
+@{
+    Layout = null;
+}
+ 
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+      @using (Html.BeginForm("CreateAnnouncement", "Home", FormMethod.Post))
+      {
+        @Html.Label("Title")
+        @Html.TextBox("Title", null, new { @class = "form-control" })
+
+        @Html.Label("Category")
+        @Html.DropDownListFor(m=>m.CategoryId, @Model.Categorys.Select(item => new SelectListItem
+        {
+        Value = item.Id.ToString(),
+        Text = item.Name.ToString(),
+        Selected = "select" == item.Name.ToString()
+        }) , new { @class = "form-control" })
+
+        @Html.Label("Phonenumber")
+        @Html.TextBox("Phonenumber", null, new { @class = "form-control" })
+
+        @Html.Label("Email")
+        @Html.TextBox("Email", null, new { @class = "form-control" })
+
+        @Html.Label("Description")
+        @Html.TextArea("Description", null, new { @class = "form-control" })
+        <button class="btn btn-default" type="submit">Submit</button>
+      }
+
+
+
+    </div>
+  
+</body>
+</html>
