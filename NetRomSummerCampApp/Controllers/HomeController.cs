@@ -30,6 +30,7 @@ namespace NetRomSummerCampApp.Controllers
             }
             List<Announcement> FiltredAnnouncements = AnnouncementsContext.GetAnnouncement().Where(a => a.CategoryName == id).ToList();
             List<Category> FiltredCategory = CategoryContext.GetCategory();
+          
             ViewBag.Ann = FiltredAnnouncements;
 
 
@@ -80,8 +81,14 @@ namespace NetRomSummerCampApp.Controllers
             return View("Error");
         }
 
-    }
 
+        public ActionResult ShowDetails(int id)
+        {
+
+            Announcement announcement = AnnouncementsContext.GetAnnouncement().FirstOrDefault(a => a.Id == id);
+            return View(announcement);
+        }
+    }
 
 
 }

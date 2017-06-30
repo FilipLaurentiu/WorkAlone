@@ -13,10 +13,6 @@
   
 
     <div class="form-inline">
-
-
-        
-
             @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
         {
             Value = item.Id.ToString(),
@@ -46,11 +42,10 @@
     @foreach (var a in @ViewBag.Ann)
     {
         <div class="jumbotron">
-            <h2>@a.Title</h2>
-            <h3>@a.CategoryName</h3>
-            <a href="#">Show Details</a>
+            <h2 >@a.Title</h2>
+            <h3 >@a.CategoryName</h3>
+          @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id})
         </div>
-
     }
 
     
