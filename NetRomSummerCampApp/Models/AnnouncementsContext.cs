@@ -13,7 +13,7 @@ namespace NetRomSummerCampApp.Models
         public static List<Announcement> GetAnnouncement()
         {
             string content = string.Empty;
-            string url = "http://localhost:61005/api/announcements/";
+            string url = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements";
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
 
             using (HttpWebResponse res = req.GetResponse() as HttpWebResponse)

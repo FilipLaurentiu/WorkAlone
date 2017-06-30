@@ -17,27 +17,24 @@ namespace NetRomSummerCampApp.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string id ="")
         {
-            List<Category> categorys = CategoryContext.GetCategory();
+            if (string.IsNullOrEmpty(id))
+            {
+                List<Category> categorys = CategoryContext.GetCategory();
 
-            List<Announcement> announcements = AnnouncementsContext.GetAnnouncement();
-            Tuple<List<Category>, List<Announcement>> tup = new Tuple<List<Category>, List<Announcement>>(categorys, announcements);
+                List<Announcement> announcements = AnnouncementsContext.GetAnnouncement();
 
-            return View(tup);
-        }
+                ViewBag.Ann = announcements;
+                return View(categorys);
+            }
+            List<Announcement> FiltredAnnouncements = AnnouncementsContext.GetAnnouncement().Where(a => a.CategoryName == id).ToList();
+            List<Category> FiltredCategory = CategoryContext.GetCategory();
+            ViewBag.Ann = FiltredAnnouncements;
 
 
+            return View(FiltredCategory);
 
-        public ActionResult Search(FiltredCategory id)
-        {
-            List<Category> categorys = CategoryContext.GetCategory();
-
-            List<Announcement> announcements = AnnouncementsContext.GetAnnouncement().Where(x=>x.CategoryName == id.FilterCategoryId).ToList();
-            FiltredCategory filter = new FiltredCategory();
-            Tuple<List<Category>, List<Announcement>, FiltredCategory> tup = new Tuple<List<Category>, List<Announcement>, FiltredCategory>(categorys, announcements, filter);
-
-            return View("Index",tup);
         }
 
 

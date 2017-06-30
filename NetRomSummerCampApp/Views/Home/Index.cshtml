@@ -1,5 +1,5 @@
 ﻿@using NetRomSummerCampApp.Models;
-@model Tuple<List<Category>, List<Announcement>>
+@model List<Category>
 
 @{ 
     Layout = null;
@@ -13,29 +13,37 @@
   
 
     <div class="form-inline">
-        @*@Html.DropDownListFor(tuple=> tuple.Item3.FilterCategoryId, @Model.Item1.Select(item => new SelectListItem
-   {
-       Value = item.Id.ToString(),
-       Text = item.Name.ToString(),
-       Selected = "select" == item.Id.ToString()
-   }), new { @class = "form-control" })*@
-
-        @Html.DropDownList("Category", @Model.Item1.Select(item => new SelectListItem
-   {
-       Value = item.Id.ToString(),
-       Text = item.Name.ToString(),
-       Selected = "select" == item.Id.ToString()
-   }), new { @class = "form-control" })
 
 
+        
 
-        @*@Html.ActionLink("Search", "Search", new { @Model.Item3})*@
+            @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
+        {
+            Value = item.Id.ToString(),
+            Text = item.Name.ToString(),
+            Selected = "select" == item.Id.ToString()
+        }), new { @class = "form-control", id = "dropDownList" })
+
+
+            <script>
+                $(function () {
+                    $('#searchCategory').on('click', function () {
+                        var e = document.getElementById("dropDownList");
+                        var selected = e.options[e.selectedIndex].text;
+                        window.location.href = "http://localhost:55539/Home/Index/" + selected;
+                    })
+                })
+            </script>
+
+
+            <button type="submit" href="Search" class="btn btn-primary" formmethod="post" id="searchCategory" >Search</button>
+
         @Html.ActionLink("New Announcement", "CreateAnnouncement",null, new { @class = "btn btn-success" })
     </div>
 
 
 
-    @foreach (var a in @Model.Item2)
+    @foreach (var a in @ViewBag.Ann)
     {
         <div class="jumbotron">
             <h2>@a.Title</h2>
