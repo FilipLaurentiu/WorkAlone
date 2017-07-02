@@ -2,10 +2,12 @@
 using NetRomSummerCampApp.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -61,7 +63,7 @@ namespace NetRomSummerCampApp.Controllers
                     Email = vm.Email,
                     Phonenumber = vm.Phonenumber
                 };
-                string url = "http://localhost:61005/api/announcements/NewAnnouncement";
+                string url = "http://api.summercamp.stage02.netromsoftware.ro/api/announcements/NewAnnouncement";
                 using (HttpClient httpClient = new HttpClient())
                 {
                     JavaScriptSerializer serialize = new JavaScriptSerializer();
@@ -86,7 +88,38 @@ namespace NetRomSummerCampApp.Controllers
         {
 
             Announcement announcement = AnnouncementsContext.GetAnnouncement().FirstOrDefault(a => a.Id == id);
-            return View(announcement);
+            List<Review> reviews = ReviewContext.GetReviews(id);
+
+            ViewBag.Comments = reviews;
+            ViewBag.IdAnnouncement = id;
+            Review rev = new Review();
+            ViewBag.announcement = announcement;
+            rev.AnnouncementId = id;
+            return View("ShowDetails",rev);
+        }
+
+
+        public async Task<ActionResult> CreateReview(Review rev)
+        {
+            if (ModelState.IsValid)
+            {
+                string url = "http://api.summercamp.stage02.netromsoftware.ro/api/reviews/NewReview";
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    JavaScriptSerializer serialize = new JavaScriptSerializer();
+                    serialize.Serialize(rev);
+                    var json = new JavaScriptSerializer().Serialize(rev);
+
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpClient client = new HttpClient();
+
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+
+                    return RedirectToAction("ShowDetails",new {id =  rev.AnnouncementId });
+                }
+            }
+            return View("Error");
         }
     }
 

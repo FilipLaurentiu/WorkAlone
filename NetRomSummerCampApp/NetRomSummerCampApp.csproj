@@ -157,6 +157,8 @@
     <Compile Include="Models\CategoryContext.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\FiltredCategory.cs" />
+    <Compile Include="Models\ReviewContext.cs" />
+    <Compile Include="Models\ReviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AnnouncementViewModel.cs" />
   </ItemGroup>
@@ -214,6 +216,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\CreateAnnouncement.cshtml" />
     <Content Include="Views\Home\ShowDetails.cshtml" />
+    <Content Include="Views\Shared\NewComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
