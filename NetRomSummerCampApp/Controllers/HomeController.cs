@@ -87,7 +87,7 @@ namespace NetRomSummerCampApp.Controllers
         public ActionResult ShowDetails(int id)
         {
 
-            Announcement announcement = AnnouncementsContext.GetAnnouncement().FirstOrDefault(a => a.Id == id);
+            AnnouncementWithDetails announcement = AnnouncementsContext.GetAnnouncementById(id);
             List<Review> reviews = ReviewContext.GetReviews(id);
 
             ViewBag.Comments = reviews;

@@ -2,28 +2,28 @@
 
 @using (Html.BeginForm("CreateReview", "Home", FormMethod.Post))
 {
-    @Html.Hidden("AnnouncementId", Model.AnnouncementId)
+    <div class="form-inline">
+@Html.Hidden("AnnouncementId", Model.AnnouncementId)
 
-    @Html.Label("Username")
-    @Html.TextBox("Username", null, new { @class = "form-control" })
+@Html.Label("Username")
+@Html.TextBox("Username", null, new { @class = "form-control" })
 
 
-    @Html.Label("Rating")
-    @Html.TextBox("Rating", null, new { @class = "form-control" })
+@Html.Label("Rating")
+@Html.TextBox("Rating", null, new { @class = "form-control" })
+
+    </div>
+    
 
 
     @Html.Label("Comment")
     
-    @Html.TextBox("Comment", null, new { @class = "form-control" })
-
-    @*@Html.ActionLink("Create", "CreateReview", new { Model })*@
+    @Html.TextArea("Comment", null, new { @class = "form-control" })
+       
     <button class="btn btn-default" type="submit">Comment</button>
 
-    @*@Html.ActionLink("Create", "CreateReview", new { AnnouncementId = Model.AnnouncementId, Username = Model.Username, Rating = Model.Rating, Comment = Model.Comment })*@
 }
  
-
-
 
 
 
