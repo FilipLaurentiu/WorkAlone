@@ -6,26 +6,34 @@
 
 
 
-<div class="well well-lg">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2><kbd>Title</kbd> @ViewBag.announcement.Title</h2>
 
-    <h2><kbd>Title:</kbd> @ViewBag.announcement.Title</h2>
-    <h3><kbd>Category:</kbd> @ViewBag.announcement.CategoryName</h3>
-    <p><kbd>Description:</kbd>@ViewBag.announcement.Description</p>
-    <kbd>Status:</kbd>@if (@ViewBag.announcement.Closed == false)
-    {
-        <p class="text-success">Open </p>
-    }
-    else
-    {
-        <p class="text-danger">Closed</p>
-    }
-    <div align="right">
-        @Html.ActionLink("Close", "Close","EditAnnouncement", new { id = @ViewBag.announcement.Id },null)
-        @*@Html.ActionLink("Close", "Close", "EditAnnouncement")*@
-        @Html.ActionLink("Extend", "Extend", "EditAnnouncement", new { id = @ViewBag.announcement.Id }, null)
-        @*@Html.ActionLink("Extend", "Extend", "EditAnnouncement")*@
-
-
+    </div>
+    <div class="panel-body">
+        <h3><kbd>Category</kbd> @ViewBag.announcement.CategoryName</h3>
+        <p><kbd>Description</kbd>@ViewBag.announcement.Description</p>
+       
+    </div>
+  
+    <div class="panel-footer">
+        <div align="left" >
+            <kbd>Status</kbd>@if (@ViewBag.announcement.Closed == false)
+            {
+                <p class="text-success">Open </p>
+            }
+            else
+            {
+                <p class="text-danger">Closed</p>
+            }
+        </div>
+       
+        <div align="right">
+            @Html.ActionLink("Close", "Close", "EditAnnouncement", new { id = @ViewBag.announcement.Id }, null)
+            @Html.ActionLink("Extend", "Extend", "EditAnnouncement", new { id = @ViewBag.announcement.Id }, null)
+        </div>
+      
     </div>
   </div>
 

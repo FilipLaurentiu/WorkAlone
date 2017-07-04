@@ -26,7 +26,6 @@ namespace NetRomSummerCampApp.Controllers
                 List<Category> categorys = CategoryContext.GetCategory();
 
                 List<Announcement> announcements = AnnouncementsContext.GetAnnouncement();
-
                 ViewBag.Ann = announcements;
                 return View(categorys);
             }
