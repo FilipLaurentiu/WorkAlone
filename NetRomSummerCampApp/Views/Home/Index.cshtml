@@ -1,4 +1,5 @@
 ﻿@using NetRomSummerCampApp.Models;
+@using NetRomSummerCampApp.ViewModel;
 @model List<Category>
 
 @{
@@ -7,21 +8,21 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>Announcement List</h1>
+        <h1><strong>Announcement List</strong></h1>
     </div>
 
     <div class="form-horizontal">
 
         <div class="form-inline">
             <div>
-               
-                    @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
-                          {
-                              Value = item.Id.ToString(),
-                              Text = item.Name.ToString(),
-                              Selected = "select" == item.Id.ToString()
-                          }), new { @class = "form-control", id = "dropDownList" })
-                   
+
+                @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
+               {
+                   Value = item.Id.ToString(),
+                   Text = item.Name.ToString(),
+                   Selected = "select" == item.Id.ToString()
+               }), new { @class = "form-control", id = "dropDownList" })
+
 
                 <script>
                     $(function () {
@@ -36,57 +37,63 @@
                                 window.location.href = "http://localhost:55539/Home/Index/" + selected;
                             }
                         })
-                       
-                       
-                        $('.class').hide();
-                        var a = $('#displayClosed').is(':checked');
-                        $('#displayClosed').change(function () {
-                            if (a == false) {
-                                $('.class').show();
-                                a = $('#displayClosed').is(':checked');
-                            }
-                            else {
-                                $('.class').hide();
-                                a = $('#displayClosed').is(':checked');
-                            }
-                        })
+
+
                     })
                 </script>
 
                 <div class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" ></span>
+                    <span class="glyphicon glyphicon-search"></span>
                     <a style="color:white" formmethod="post" id="searchCategory">Search</a>
                 </div>
-                
-                <input type="checkbox" id="displayClosed" />Display Closed
+
+                @*<input type="checkbox" id="displayClosed" />Display Closed*@
 
                 <div style="float:right">
                     <button class="btn btn-success">
                         <span class="glyphicon glyphicon-plus">&nbsp;</span>
                         @Html.ActionLink("New Announcement", "CreateAnnouncement", null, new { style = "color:white" })
                     </button>
+                    <button class="btn btn-primary" id="toggleForm">
+                        <span class="glyphicon glyphicon-menu-down"></span>
+                    </button>
                 </div>
 
             </div>
-            <br/>
-            <br/>
+            <br />
+            <br />
+
+
+
             <div>
                 @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
-                                   {
-                                       Value = item.Id.ToString(),
-                                       Text = item.Name.ToString(),
-                                       Selected = "select" == item.Id.ToString()
-                                   }), new { @class = "form-control", id = "dropDownListClient" })
+           {
+               Value = item.Id.ToString(),
+               Text = item.Name.ToString(),
+               Selected = "select" == item.Id.ToString()
+           }), new { @class = "form-control", id = "dropDownListClient" })
 
                 <div class="btn btn-primary">
                     <span class="glyphicon glyphicon-search"></span>
-                    <a  id="clientSideSearch" style="color:white">Search Client-Side</a>
+                    <a id="clientSideSearch" style="color:white">Search Client-Side</a>
                 </div>
 
-                
+
                 <script>
-                   
-                    
+
+                    //$('.class').hide();
+                    //var a = $('#displayClosed').is(':checked');
+                    //$('#displayClosed').change(function () {
+                    //    if (a==false) {
+                    //        $('.class').show();
+                    //        a = !a;
+                    //    }
+                    //    if(a==true) {
+                    //        $('.class').hide();
+                    //        a = !a;
+                    //    }
+                    //})
+
                     $('#dropDownListClient').prepend($('<option></option>').val("All").html("All"));
                     $('#dropDownListClient').val("All");
 
@@ -94,24 +101,28 @@
                         var category = $("#dropDownListClient option:selected").text();
 
                         if (category == "All") {
-                            $('.panel-default').css({ "display": "block" });
+                            $('.panel-default').show();
+
                         } else {
-                            $('.panel-default').css({ "display": "none" });
-                            $('.' + category).css({ "display": "block" });
+                            $('.panel-default').hide();
+                            $('.' + category).show();
+
                         }
-                       
 
-
-
-                       
                     });
+
+
+
+
                 </script>
             </div>
         </div>
 
 
+        <div id="inPageAnnouncement">
+            @Html.Partial("CreateAnnouncement", new AnnouncementViewModel() { Categorys = CategoryContext.GetCategory() })
+        </div>
 
-        
     </div>
 
 
@@ -119,32 +130,45 @@
 
 
     <br /><br />
-    <div class="container" >
+    <div class="container">
         @foreach (var a in @ViewBag.Ann)
         {
             <div class="panel panel-default @a.CategoryName @a.Closed" style="margin:7%">
-                @*<span style="display:none" class="@a.Closed">@a.Closed</span>*@
                 <div class="panel-heading">
-                    <h2>@a.Title</h2>
+                    <h2><strong>@a.Title</strong></h2>
                 </div>
                 <div class="panel-body">
                     <div style="float:left">
                         <h3><span class="glyphicon glyphicon-tag" style="font-size:15px"></span> @a.CategoryName  </h3>
                     </div>
 
-                    
+
 
 
                     <button class="btn btn-info" style="float:right">
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true">&nbsp;</span>
-                        @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id },new { style = "color:white" })
+                        @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id }, new { style = "color:white" })
                     </button>
                 </div>
 
             </div>
         }
-
-
-
-
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#formInPage").hide();
+        });
+
+        $("#toggleForm").click(function () {
+            $("#formInPage").fadeToggle("slow", "linear");
+        })
+
+        $('.panel-default').mouseover(function () {
+            $(this).css("transform", "scale(1.02)");
+
+        });
+        $('.panel-default').mouseout(function () {
+            $(this).css("transform", "scale(1)");
+        });
+    </script>

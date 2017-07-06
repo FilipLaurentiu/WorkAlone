@@ -35,7 +35,7 @@ namespace NetRomSummerCampApp.Controllers
             List<Category> FiltredCategory = CategoryContext.GetCategory();
           
             ViewBag.Ann = FiltredAnnouncements;
-
+            ViewBag.AnnPartial = new AnnouncementViewModel();
 
             return View(FiltredCategory);
 
