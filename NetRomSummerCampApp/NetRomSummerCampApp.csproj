@@ -222,6 +222,7 @@
     <Content Include="Views\Shared\NewComment.cshtml" />
     <Content Include="Views\EditAnnouncement\Close.cshtml" />
     <Content Include="Views\EditAnnouncement\Extend.cshtml" />
+    <Content Include="Views\Home\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

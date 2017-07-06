@@ -10,74 +10,134 @@
         <h1>Announcement List</h1>
     </div>
 
+    <div class="form-horizontal">
 
-
-    <div class="form-inline">
-        <div style="float:left">
-            @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
-       {
-           Value = item.Id.ToString(),
-           Text = item.Name.ToString(),
-           Selected = "select" == item.Id.ToString()
-       }), new { @class = "form-control", id = "dropDownList" })
-
-
-            <script>
-                $(function () {
-                    $('#searchCategory').on('click', function () {
-                        var e = document.getElementById("dropDownList");
-                        var selected = e.options[e.selectedIndex].text;
-                        //var link = windows.location.href;
-                        //if (link.length > 34) {
-                        //    window.history.go(-1);
-                        //}
-                        //window.location.href += "/" + selected;
-                        window.location.href = "http://localhost:55539/Home/Index/" + selected;
-                    })
-                })
-            </script>
-
-
-            <button type="submit" href="Search" class="btn btn-primary" formmethod="post" id="searchCategory">Search</button>
-        </div>
-
-        <div style="float:left">
-            @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
-       {
-           Value = item.Id.ToString(),
-           Text = item.Name.ToString(),
-           Selected = "select" == item.Id.ToString()
-       }), new { @class = "form-control", id = "dropDownListClient" })
-
-            <script>
-                $('#dropDownListClient').on('change',function(){
-                    var category = $("#dropDownListClient option:selected").text();
+        <div class="form-inline">
+            <div>
+               
+                    @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
+                          {
+                              Value = item.Id.ToString(),
+                              Text = item.Name.ToString(),
+                              Selected = "select" == item.Id.ToString()
+                          }), new { @class = "form-control", id = "dropDownList" })
                    
-                    $('.panel-primary').css({ "display": "none" });
+
+                <script>
+                    $(function () {
+                        $('#dropDownList').prepend($('<option></option>').val("All").html("All"));
+                        $('#dropDownList').val("All");
+                        $('#searchCategory').on('click', function () {
+                            var e = document.getElementById("dropDownList");
+                            var selected = e.options[e.selectedIndex].text;
+                            if (selected == "All") {
+                                window.location.href = "http://localhost:55539/Home/Index/";
+                            } else {
+                                window.location.href = "http://localhost:55539/Home/Index/" + selected;
+                            }
+                        })
+                       
+                       
+                        $('.class').hide();
+                        var a = $('#displayClosed').is(':checked');
+                        $('#displayClosed').change(function () {
+                            if (a == false) {
+                                $('.class').show();
+                                a = $('#displayClosed').is(':checked');
+                            }
+                            else {
+                                $('.class').hide();
+                                a = $('#displayClosed').is(':checked');
+                            }
+                        })
+                    })
+                </script>
+
+                <div class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search" ></span>
+                    <a style="color:white" formmethod="post" id="searchCategory">Search</a>
+                </div>
+                
+                <input type="checkbox" id="displayClosed" />Display Closed
+
+                <div style="float:right">
+                    <button class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus">&nbsp;</span>
+                        @Html.ActionLink("New Announcement", "CreateAnnouncement", null, new { style = "color:white" })
+                    </button>
+                </div>
+
+            </div>
+            <br/>
+            <br/>
+            <div>
+                @Html.DropDownList("Category", @Model.Select(item => new SelectListItem
+                                   {
+                                       Value = item.Id.ToString(),
+                                       Text = item.Name.ToString(),
+                                       Selected = "select" == item.Id.ToString()
+                                   }), new { @class = "form-control", id = "dropDownListClient" })
+
+                <div class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <a  id="clientSideSearch" style="color:white">Search Client-Side</a>
+                </div>
+
+                
+                <script>
+                   
                     
-                    $('.'+category).css({ "display": "block" });
-                });
-            </script>
+                    $('#dropDownListClient').prepend($('<option></option>').val("All").html("All"));
+                    $('#dropDownListClient').val("All");
+
+                    $('#clientSideSearch').on('click', function () {
+                        var category = $("#dropDownListClient option:selected").text();
+
+                        if (category == "All") {
+                            $('.panel-default').css({ "display": "block" });
+                        } else {
+                            $('.panel-default').css({ "display": "none" });
+                            $('.' + category).css({ "display": "block" });
+                        }
+                       
+
+
+
+                       
+                    });
+                </script>
+            </div>
         </div>
 
-        <div style="float:right">
-            @Html.ActionLink("New Announcement", "CreateAnnouncement", null, new { @class = "btn btn-success" })
-        </div>
+
+
+        
     </div>
 
 
-    <br /><br /> <br />
-    <div class="container">
+
+
+
+    <br /><br />
+    <div class="container" >
         @foreach (var a in @ViewBag.Ann)
         {
-            <div class="panel panel-primary @a.CategoryName" >
+            <div class="panel panel-default @a.CategoryName @a.Closed" style="margin:7%">
+                @*<span style="display:none" class="@a.Closed">@a.Closed</span>*@
                 <div class="panel-heading">
                     <h2>@a.Title</h2>
                 </div>
                 <div class="panel-body">
-                    <h3>@a.CategoryName</h3>
-                    <button class="btn btn-info">
-                        @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id })
+                    <div style="float:left">
+                        <h3><span class="glyphicon glyphicon-tag" style="font-size:15px"></span> @a.CategoryName  </h3>
+                    </div>
+
+                    
+
+
+                    <button class="btn btn-info" style="float:right">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true">&nbsp;</span>
+                        @Html.ActionLink("Show Details", "ShowDetails", new { id = a.Id },new { style = "color:white" })
                     </button>
                 </div>
 

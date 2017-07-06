@@ -10,7 +10,14 @@
 
 
 @Html.Label("Rating")
-@Html.TextBox("Rating", null, new { @class = "form-control" })
+        <select class="form-control" id="Rating" name="Rating">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+@*@Html.TextBox("Rating", null, new { @class = "form-control" })*@
 
     </div>
     
@@ -20,7 +27,7 @@
     
     @Html.TextArea("Comment", null, new { @class = "form-control" })
        
-    <button class="btn btn-default" type="submit">Comment</button>
+    <button class="btn btn-default"  style="margin:2%" type="submit">Comment</button>
 
 }
  

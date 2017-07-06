@@ -26,10 +26,12 @@ namespace NetRomSummerCampApp.Controllers
                 List<Category> categorys = CategoryContext.GetCategory();
 
                 List<Announcement> announcements = AnnouncementsContext.GetAnnouncement();
+                announcements.Reverse();
                 ViewBag.Ann = announcements;
                 return View(categorys);
             }
             List<Announcement> FiltredAnnouncements = AnnouncementsContext.GetAnnouncement().Where(a => a.CategoryName == id).ToList();
+            FiltredAnnouncements.Reverse();
             List<Category> FiltredCategory = CategoryContext.GetCategory();
           
             ViewBag.Ann = FiltredAnnouncements;
@@ -44,8 +46,14 @@ namespace NetRomSummerCampApp.Controllers
         [HttpGet]
         public ActionResult CreateAnnouncement()
         {
-            
-            return View(new AnnouncementViewModel());
+          
+                return View(new AnnouncementViewModel()
+                {
+                    Categorys = CategoryContext.GetCategory()
+                });
+
+       
+
         }
 
         [HttpPost]
@@ -78,8 +86,8 @@ namespace NetRomSummerCampApp.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
-            return View("Error");
+            vm.Categorys = CategoryContext.GetCategory();
+            return View(vm);
         }
 
 

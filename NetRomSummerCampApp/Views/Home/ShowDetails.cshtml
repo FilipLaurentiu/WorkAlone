@@ -6,20 +6,20 @@
 
 
 
-<div class="panel panel-default">
+<div class="panel panel-default" style="margin:2%">
     <div class="panel-heading">
-        <h2><kbd>Title</kbd> @ViewBag.announcement.Title</h2>
+        <h2>@ViewBag.announcement.Title</h2>
 
     </div>
     <div class="panel-body">
-        <h3><kbd>Category</kbd> @ViewBag.announcement.CategoryName</h3>
-        <p><kbd>Description</kbd>@ViewBag.announcement.Description</p>
+        <h3>@ViewBag.announcement.CategoryName</h3>
+        <p>@ViewBag.announcement.Description</p>
        
     </div>
   
     <div class="panel-footer">
-        <div align="left" >
-            <kbd>Status</kbd>@if (@ViewBag.announcement.Closed == false)
+        <div align="left" >Status
+            @if (@ViewBag.announcement.Closed == false)
             {
                 <p class="text-success">Open </p>
             }
@@ -43,11 +43,12 @@
 
 
 
-
+<div class="container" align="center" style="padding:5%">
 @Html.Partial("NewComment", Model)
+</div>
 
 
-<br /><br /> <br />
+
 <div class="container">
     @foreach (var c in ViewBag.Comments)
     {
